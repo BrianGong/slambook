@@ -17,6 +17,7 @@ find_package( OpenCV 3.1 REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 # Sophus 
 find_package( Sophus REQUIRED )
+set(Sophus_LIBRARIES libSophus.so)
 include_directories( ${Sophus_INCLUDE_DIRS} )
 # G2O
 find_package( G2O REQUIRED )
