@@ -192,8 +192,18 @@ void VisualOdometry::poseEstimationPnP()
     // using bundle adjustment to optimize the pose
     typedef g2o::BlockSolver<g2o::BlockSolverTraits<6,2>> Block;
     Block::LinearSolverType* linearSolver = new g2o::LinearSolverDense<Block::PoseMatrixType>();
-    Block* solver_ptr = new Block ( linearSolver );
-    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg ( solver_ptr );
+    Block* solver_ptr = new Block (  std::unique_ptr<Block::LinearSolverType>(linearSolver)  );
+    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg ( std::unique_ptr<Block>(solver_ptr) );
+   
+
+    // typedef g2o::BlockSolver< g2o::BlockSolverTraits<3,1> > Block;
+    // Block::LinearSolverType* linearSolver = new g2o::LinearSolverDense<Block::PoseMatrixType>();
+    // Block* solver_ptr = new Block( std::unique_ptr<Block::LinearSolverType>(linearSolver) );
+    // g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(std::unique_ptr<Block>(solver_ptr) );
+
+
+
+
     g2o::SparseOptimizer optimizer;
     optimizer.setAlgorithm ( solver );
 
